@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+  <html lang="hu">
+    <head>
+      <title>Allergén anyagok űrlapja</title>
+      <meta charset="UTF-8">
+      <style>
+.anyagok {
+  background-color: tomato;
+  color: white;
+  border: 2px solid black;
+  margin: 20px;
+  padding: 20px;
+}
+      </style>
+    </head>
+<body style="background-color:powderblue;">
+  <form method="post" action="mentesvalogato.php" name="urlap">
+
+  <h1>Allergén anyagok</h1>
+  <h2>Amennyiben Te valamilyen hozzávalóra allergiás vagy töltsd ki ezt az űrlapot és mi segítünk neked összeállítani a neked való ételt!</h2>
+
+  <div class="anyagok">
+  <p><b>Név:</b></p>
+  <input type='text' id="txtName">
+  </div> 
+  
+  <div class="anyagok">
+  <p><b>Mire vagy allergiás:</b></p>
+  <select name="anyagok" id="allergen" multiple size="5">
+  <optgroup label="Allergén anyagok">
+  <option value="zeller">Zeller</option>
+  <option value="gluten">Glutén</option>
+  <option value="tej">Tej</option>
+  <option value="tojas">Tojás</option>
+  </optgroup>
+  </select><br> A Ctrl gomb lenyomásával többet is kiválaszthatsz</select>
+  </div> 
+
+  <div class="anyagok">
+  <p><b>Cím:</b></p> 
+  <input type='text' id="txtCim">
+  </div>
+
+  <div class="anyagok">
+  <label for="telefonszam"><strong>Telefonszám:</strong><br>
+  Formátum: +36(körzetszám)123-4567</label>
+  <input type="tel" size="15" name="telefonszam" id="telefonszam"  maxlength="15" placeholder="+36(99)123-456" pattern="[\+]36[\(]\d{1,2}[\)]\d{3}[\-]\d{3,4}">
+  </p>
+  </div>
+
+<div class="anyagok">
+  <p><b>Regisztrálni szeretnék:</b></p>
+  <input type='radio' name='gender'> Igen
+  <input type='radio' name='gender'> Nem
+</div>
+
+<div class="anyagok">
+  <label for="emailcim"><strong>Amennyiben regisztrálni szeretnél add meg az E-mail címedet:</strong></label>
+  <input type="email" size="30" name="emailcim" id="emailcim" required>
+</p>
+</div>
+<div>
+  
+  <input type="button" id="bt" value="Küldés" onclick="saveFile()" />
+</div><input type='reset' value="Töröl">
+
+</form>
+</body>
+
+  <script>
+  let saveFile = () => {
+  const txtName = document.getElementById("txtName");
+  const txtCim = document.getElementById('txtCim');
+  const telefonszam = document.getElementById('telefonszam');
+  const emailcim = document.getElementById('emailcim');
+  const allergen = document.getElementById('allergen');
+   
+let data = 
+  '\r txtName: ' + txtName.value + ' \r\n ' + 
+  'txtCim: ' + txtCim.value + ' \r\n ' + 
+  'telefonszam: ' + telefonszam.value + ' \r\n ' + 
+  'emailcim: ' + emailcim.value + ' \r\n ' + 
+  'allergen: ' + allergen.value; 
+  
+  const textToBLOB = new Blob([data], { type: 'szoveg' });
+  const sFileName = 'regisztracio.txt';	   
+
+  let newLink = document.createElement("a");
+  newLink.download = sFileName;
+  
+  if (window.webkitURL != null) {
+    newLink.href = window.webkitURL.createObjectURL(textToBLOB); 
+  }
+  else {
+  newLink.href = window.URL.createObjectURL(textToBLOB);
+  newLink.style.display = "none";
+  document.body.appendChild(newLink); 
+}
+newLink.click(); 
+}
+  </script>
+ </html>
